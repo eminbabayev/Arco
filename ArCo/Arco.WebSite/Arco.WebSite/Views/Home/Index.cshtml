@@ -1,0 +1,614 @@
+﻿
+@model Arco.WebSite.Models.ViewHome
+@{
+    ViewBag.Title = "Home Page";
+}
+
+
+<!-- =====================================
+==== Start Header -->
+
+<header class="header valign bg-img" data-scroll-index="0" data-overlay-dark="5" data-background="/Public/img/bg2.jpg" data-stellar-data-background-ratio="0.5">
+
+    <div class="container">
+        <div class="row">
+            <div class="full-width text-center caption mt-30">
+                <h4>We Are Creative</h4>
+                <h1>Creative Digital Agency</h1>
+                <p>A single place to share, curate and discover visual that tells a story.</p>
+                <a href="#0" class="butn butn-light mt-30">
+                    <span>Learn More</span>
+                </a>
+                <a href="#0" class="butn butn-bg mt-30">
+                    <span>Get Started</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- End Header ====
+======================================= -->
+<!-- =====================================
+==== Start Hero -->
+
+<section class="hero section-padding" data-scroll-index="1">
+    <div class="container">
+        <div class="row">
+
+            <div class="intro offset-lg-1 col-lg-10 text-center mb-80">
+                <h3>Welcome To Our Agency</h3>
+                <h4>Who We Are And What Can We do?</h4>
+                <p>@Model.Setting.About</p>
+            </div>
+
+            @foreach (var item in Model.Services.FindAll(s => s.IsAbout).Take(3))
+            {
+                <div class="col-lg-4">
+                    <div class="item text-center mb-md50">
+                        <span class="icon @item.Icon"></span>
+                        <h5>@item.Title</h5>
+                        <p>@item.Desc</p>
+                    </div>
+                </div>
+
+            }
+
+        </div>
+    </div>
+</section>
+
+<!-- End Hero ====
+======================================= -->
+<!-- =====================================
+==== Start Section-box -->
+
+<section class="section-box" data-scroll-index="1">
+    <div class="container-fluid">
+        <div class="row">
+
+            <div class="col-lg-6 bg-img half-img bgimg-height" data-background="/Public/img/1.jpg"></div>
+
+            <div class="col-lg-6 half-content bg-gray">
+                <div class="box-white">
+
+                    <div class="content mb-50">
+                        <h3 class="mb-15 lg-line-height">We strive to be the best and make Awesome Work.</h3>
+                        <p>Lorem Ipsum is simply dummy text of the printing and type setting industry when an unknown printer took a galley of type and scrambled it to make a type specimen book It has survived not only five centuries.</p>
+                    </div>
+
+                    <!-- Skills -->
+
+                    <div class="skills">
+                        @foreach (var item in Model.Skills)
+                        {
+                        <div class="skill-item">
+                            <h6>@item.Name</h6>
+                            <div class="skill-progress">
+                                <div class="progres" data-value="@item.Value%"></div>
+                            </div>
+                        </div>
+                         }
+
+                        </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- End Section-box ====
+======================================= -->
+<!-- =====================================
+==== Start Services -->
+
+<section class="services section-padding" data-scroll-index="2">
+    <div class="container">
+        <div class="row">
+
+            <div class="section-head text-center col-sm-12">
+                <h4>Our Services</h4>
+                <h6>Awesome Featruse</h6>
+            </div>
+
+            @{ 
+                byte i = 1;
+                byte j = 1;
+            }
+            @foreach (var item in Model.Services)
+            {
+                <div class="col-lg-4 col-md-6 @(j%2==0?"bord":"")">
+                    <div class="item mb-md50">
+                        <span class="icon @item.Icon"></span>
+                        <h6>@item.Title</h6>
+                        <p>@item.Desc</p>
+                    </div>
+                </div>
+
+                j++;
+                if (i%3 == 0 && Model.Services.Count != i)
+                {
+                    <hr>
+                    j = 1;
+                }
+                i++;
+          
+            }
+
+        </div>
+    </div>
+</section>
+
+<!-- End Services ====
+======================================= -->
+<!-- =====================================
+==== Start Numbers -->
+
+<div class="numbers section-padding bg-img bg-fixed" data-scroll-index="2" data-overlay-dark="8" data-background="/Public/img/bg3.jpg">
+    <div class="container">
+        <div class="row">
+            @foreach (var item in Model.Numbers)
+            {
+                <div class="col-lg-3 col-md-6">
+                    <div class="item text-center mb-md50">
+                        <span class="icon @item.Icon"></span>
+                        <h3 class="count">@item.Value</h3>
+                        <h6>@item.Name</h6>
+                    </div>
+                </div>
+            }
+
+
+        </div>
+    </div>
+</div>
+
+<!-- End Numbers ====
+======================================= -->
+<!-- =====================================
+==== Start Works -->
+
+<section class="works section-padding" data-scroll-index="3">
+    <div class="container-fluid">
+        <div class="row">
+
+            <div class="section-head text-center col-sm-12">
+                <h4>Creative Portfolio</h4>
+                <h6>Latest Projects</h6>
+            </div>
+
+            <!-- filter links -->
+            <div class="filtering text-center mb-30 col-sm-12">
+                <div class="filter">
+                    <span data-filter='*' class="active">All</span>
+                    @foreach (var item in Model.Categories)
+                    {
+                        <span data-filter='.@item.Name.Replace(" ", "_").ToLower()'>@item.Name</span>
+                    }
+
+
+                </div>
+            </div>
+
+            <div class="clearfix"></div>
+
+            <!-- gallery -->
+            <div class="gallery text-center full-width">
+                @foreach (var item in Model.Portfolios)
+                {
+                    <!-- gallery item -->
+                    <div class="col-lg-3 col-md-6 items @item.Category.Name.Replace(" ", "_").ToLower() ">
+                        <div class="item-img">
+                            <img src="~/Upload/@item.Photo" alt="image">
+                            <div class="item-img-overlay valign">
+                                <div class="overlay-info full-width vertical-center">
+                                    <p>@item.Category.Name</p>
+                                    <h6>@item.Name</h6>
+                                    <a href="~/Upload/@item.Photo" class="popimg">
+                                        <span class="icon icon-basic-eye"></span>
+                                    </a>
+                                    <a href="#0">
+                                        <span class="icon icon-basic-link"></span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                }
+
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- End Works ====
+======================================= -->
+<!-- =====================================
+==== Start Section-box -->
+
+<section class="section-box">
+    <div class="container-fluid">
+        <div class="row">
+
+            <div class="col-lg-6 half-content bg-gray">
+                <div class="box-white">
+
+                    <div class="content mb-50">
+                        <h3 class="mb-15">Why You Can Chooes Us?</h3>
+                        <p>Lorem Ipsum is simply dummy text of the printing and type setting industry when an unknown printer took a galley of type and scrambled it to make a type specimen book It has survived not only five centuries.</p>
+                    </div>
+
+                    <!-- accordion -->
+
+                    @{ 
+                        i = 0;
+                    }
+
+                    <div class="accordion">
+                    @foreach (var item in Model.ChooesUs)
+                    {
+                        <div class="item @(i==0?"active":"")">
+                            <div class="title">
+                                <h6>@item.Title</h6>
+                            </div>
+                            <div class="accordion-info @(i==0?"active":"")">
+                                <p>@item.Text</p>
+                            </div>
+                        </div>
+                        i++;
+                    }
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6 bg-img half-img bgimg-height valign" data-background="/Public/img/2.jpg">
+                <a class="vid text-center full-width" href="@Model.Setting.Video">
+                    <span class="vid-butn">
+                        <i class="fas fa-play-circle"></i>
+                    </span>
+                </a>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- End Section-box ====
+======================================= -->
+<!-- =====================================
+==== Start Teams -->
+
+<section class="team section-padding">
+    <div class="container">
+        <div class="row">
+
+            <div class="section-head text-center col-sm-12">
+                <h4>Our Team</h4>
+                <h6>The Talent Crew</h6>
+            </div>
+            @foreach (var item in Model.Members)
+            {
+                <div class="col-lg-6">
+                    <div class="item mb-50">
+                        <div class="team-img">
+                            <img src="~/Upload/@item.Photo" alt="@item.FullName">
+                        </div>
+                        <div class="info">
+                            <h6>@item.FullName</h6>
+                            <span>@item.Position</span>
+                            <p>@item.Desc</p>
+                            <div class="social">
+                                @if (item.Facebook != null)
+                                {
+                                    <a href="@item.Facebook" target="_blank" class="icon">
+                                        <i class="fab fa-facebook-f"></i>
+                                    </a>
+                                }
+                                @if (item.Twitter != null)
+                                {
+                                    <a href="@item.Twitter"target="_blank" class="icon">
+                                        <i class="fab fa-twitter"></i>
+                                    </a>
+                                }
+                                @if (item.Behance != null)
+                                {
+                                    <a href="@item.Behance"target="_blank" class="icon">
+                                        <i class="fab fa-behance"></i>
+                                    </a>
+                                }
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+
+        </div>
+    </div>
+</section>
+
+<!-- End Teams ====
+======================================= -->
+<!-- =====================================
+==== Start Price -->
+
+<section class="price section-padding bg-gray" data-scroll-index="4">
+    <div class="container">
+        <div class="row">
+
+            <div class="section-head text-center col-sm-12">
+                <h4>Our Pricing</h4>
+                <h6>Chooes Our Offers</h6>
+            </div>
+
+            <div class="pricing-tables full-width">
+
+                <div class="row">
+                    @foreach (var item in Model.Packages)
+                    {
+                        <div class="col-lg-4">
+                            <div class="item text-center mb-md50 @(item.IsPrimary?"active bg-img":"")" @(item.IsPrimary?"data-background ='/Public/img/03.jpg'":"")>
+                                <div class="type">
+                                    <h4>@item.Name</h4>
+                                </div>
+
+                                <div class="value">
+                                    <h3>@item.Price.ToString("#.##")<span>$</span></h3>
+                                    <span class="per">Per Of Month</span>
+                                </div>
+
+                                <div class="features">
+                                    <ul>
+                                        @foreach (var key in item.PackageKeys.ToList())
+                                        {
+                                            <li>@key.Name<i class="fas @(key.IsOk?"true fa-check":"false fa-times")"></i></li>
+                                        }
+
+                                    
+                                    </ul>
+                                </div>
+
+                                <div class="order">
+                                    <a href="#0" class="butn butn-bg">
+                                        <span>Purchase Now</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- End Price ====
+======================================= -->
+<!-- =====================================
+==== Start Testimonials -->
+
+<section class="testimonials carousel-single section-padding bg-img bg-fixed" data-overlay-dark="7" data-background="/Public/img/bg4.jpg">
+    <div class="container">
+        <div class="row">
+
+            <div class="offset-lg-1 col-lg-10">
+
+                <div class="owl-carousel owl-theme text-center">
+                    @foreach (var item in Model.Testimonials)
+                    {
+                        <div class="item">
+                            <div class="client-img">
+                                <img src="~/Upload/@item.Photo" alt="@item.FullName">
+                            </div>
+                            <div class="info">
+                                <h6>@item.FullName<span>@item.Position</span></h6>
+                            </div>
+                            <p>@item.Desc</p>
+                        </div>
+                    }
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- End Testimonials ====
+======================================= -->
+<!-- =====================================
+==== Start Subscribe -->
+
+<div class="subscribe section-padding bg-gray bg-img" data-scroll-index="5" data-background="/Public/img/pattern.png">
+    <div class="container">
+        <div class="row">
+
+            <div class="offset-lg-3 col-lg-6 offset-md-2 col-md-8 text-center">
+                <h4>Join To Our Newsletter</h4>
+                <form method='post'>
+                    <input type='hidden' name='form-name' value='form 1' />
+                    <input type="email" name="email" placeholder="Your E-mail">
+                    <button type="submit" class="butn butn-bg"><span>Subscribe</span></button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- End Subscribe ====
+======================================= -->
+<!-- =====================================
+==== Start Clients -->
+
+<div class="clients text-center pt-50 pb-50">
+    <div class="container">
+        <div class="row">
+
+            <div class="owl-carousel owl-theme col-sm-12">
+                @foreach (var item in Model.Clients)
+                {
+                    <a href="#0">
+                        <img src="~/Upload/@item.Photo" alt="">
+                    </a>
+                }
+
+               
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- End Clients ====
+======================================= -->
+<!-- =====================================
+==== Start Contact-Info -->
+
+<div class="contact-info section-box" data-scroll-index="6">
+    <div class="container-fluid">
+        <div class="row">
+
+            <!-- Contact Info -->
+
+            <div class="info bg-img col-md-6" data-overlay-dark="8" data-background="/Public/img/bg3.jpg">
+
+                <div class="gradient">
+
+                    <div class="item">
+                        <span class="icon icon-basic-smartphone"></span>
+                        <div class="cont">
+                            <h6>Phone : @Model.Setting.Phone</h6>
+                           
+                        </div>
+                    </div>
+
+                    <div class="item">
+                        <span class="icon icon-basic-geolocalize-05"></span>
+                        <div class="cont">
+                            <h6>Address : @Model.Setting.Address</h6>
+                           
+                        </div>
+                    </div>
+
+                    <div class="item">
+                        <span class="icon icon-basic-mail"></span>
+                        <div class="cont">
+                            <h6>Email :@Model.Setting.Email </h6>
+               
+                        </div>
+                    </div>
+
+                    <div class="social">
+                        @if (Model.Setting.Facebook != null)
+                        {
+                            <a href="@Model.Setting.Facebook" target="_blank" class="icon">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                        }
+                        @if (Model.Setting.Twitter != null)
+                        {
+
+                            <a href="@Model.Setting.Twitter" target="_blank" class="icon">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                        }
+
+                        @if (Model.Setting.Linkedin != null)
+                        {
+                            <a href="@Model.Setting.Linkedin" target="_blank" class="icon">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                        }
+
+                        @if (Model.Setting.Instagram != null)
+                        {
+                            <a href="@Model.Setting.Instagram" target="_blank" class="icon">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                        }
+
+                      
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- The Map -->
+
+            <div class="map col-md-6 bgimg-height-sm">
+                <div id="ieatmaps" data-lat="@Model.Setting.Lat" data-lng="@Model.Setting.Lng"></div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- End Contact-Info ====
+======================================= -->
+<!-- =====================================
+==== Start Contact -->
+
+<section class="contact section-padding" data-scroll-index="6">
+    <div class="container">
+        <div class="row">
+
+            <div class="section-head text-center col-sm-12">
+                <h4>Get In Touch</h4>
+                <h6>Feel Free To Contact Us</h6>
+            </div>
+
+            <div class="offset-lg-2 col-lg-8 offset-md-1 col-md-10">
+                <form class='form' id='contact-form' method='post'>
+                    <input type='hidden' name='form-name' value='contact-form' />
+
+                    <div class="messages"></div>
+
+                    <div class="controls">
+
+                        <div class="row">
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input id="form_name" type="text" name="name" placeholder="Name" required="required">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input id="form_email" type="email" name="email" placeholder="Email" required="required">
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <input id="form_subject" type="text" name="subject" placeholder="Subject">
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <textarea id="form_message" name="message" placeholder="Message" rows="4" required="required"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 text-center">
+                                <button type="submit"><span>Send Message</span></button>
+                            </div>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- End Contact ====
+======================================= -->

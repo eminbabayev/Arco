@@ -1,0 +1,171 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ArcoModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Category">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Portfolios" Relationship="Self.FK_Portfolio_Categories" FromRole="Categories" ToRole="Portfolio" />
+  </EntityType>
+  <EntityType Name="ChooesU">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Text" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="Client">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Photo" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="Member">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FullName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Position" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Photo" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Desc" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Facebook" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Twitter" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Behance" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="Number">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Value" Type="Int32" />
+    <Property Name="Icon" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="PackageKey">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PackageId" Type="Int32" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="IsOk" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Package" Relationship="ArcoModel.FK_PackageKeys_Packages" FromRole="PackageKey" ToRole="Package" />
+  </EntityType>
+  <EntityType Name="Portfolio">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CategoryId" Type="Int32" Nullable="false" />
+    <Property Name="Photo" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Category" Relationship="Self.FK_Portfolio_Categories" FromRole="Portfolio" ToRole="Categories" />
+  </EntityType>
+  <EntityType Name="Skill">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Value" Type="Int32" />
+  </EntityType>
+  <EntityType Name="Testimonial">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FullName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Photo" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Position" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Desc" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <Association Name="FK_Portfolio_Categories">
+    <End Role="Categories" Type="Self.Category" Multiplicity="1" />
+    <End Role="Portfolio" Type="Self.Portfolio" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Categories">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Portfolio">
+        <PropertyRef Name="CategoryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="ArcoEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Categories" EntityType="Self.Category" />
+    <EntitySet Name="ChooesUs" EntityType="Self.ChooesU" />
+    <EntitySet Name="Clients" EntityType="Self.Client" />
+    <EntitySet Name="Members" EntityType="Self.Member" />
+    <EntitySet Name="Numbers" EntityType="Self.Number" />
+    <EntitySet Name="PackageKeys" EntityType="Self.PackageKey" />
+    <EntitySet Name="Portfolios" EntityType="Self.Portfolio" />
+    <EntitySet Name="Skills" EntityType="Self.Skill" />
+    <EntitySet Name="Testimonials" EntityType="Self.Testimonial" />
+    <AssociationSet Name="FK_Portfolio_Categories" Association="Self.FK_Portfolio_Categories">
+      <End Role="Categories" EntitySet="Categories" />
+      <End Role="Portfolio" EntitySet="Portfolios" />
+    </AssociationSet>
+    <EntitySet Name="Services" EntityType="ArcoModel.Service" />
+    <EntitySet Name="Packages" EntityType="ArcoModel.Package" />
+    <AssociationSet Name="FK_PackageKeys_Packages" Association="ArcoModel.FK_PackageKeys_Packages">
+      <End Role="Package" EntitySet="Packages" />
+      <End Role="PackageKey" EntitySet="PackageKeys" />
+    </AssociationSet>
+    <EntitySet Name="Settings" EntityType="ArcoModel.Setting" />
+  </EntityContainer>
+  <EntityType Name="Service">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Icon" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Desc" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="IsAbout" Type="Boolean" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Package">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Price" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+    <Property Name="IsPrimary" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="PackageKeys" Relationship="ArcoModel.FK_PackageKeys_Packages" FromRole="Package" ToRole="PackageKey" />
+  </EntityType>
+  <Association Name="FK_PackageKeys_Packages">
+    <End Type="ArcoModel.Package" Role="Package" Multiplicity="1" />
+    <End Type="ArcoModel.PackageKey" Role="PackageKey" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Package">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PackageKey">
+        <PropertyRef Name="PackageId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Setting">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="About" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Logo" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Address" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Facebook" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Twitter" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Behance" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Linkedin" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Instagram" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Video" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Lat" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Lng" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+</Schema>
